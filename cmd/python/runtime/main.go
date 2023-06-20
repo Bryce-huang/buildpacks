@@ -18,6 +18,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/GoogleCloudPlatform/buildpacks/pkg/python"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -25,7 +26,6 @@ import (
 	"github.com/GoogleCloudPlatform/buildpacks/pkg/env"
 	"github.com/GoogleCloudPlatform/buildpacks/pkg/flex"
 	gcp "github.com/GoogleCloudPlatform/buildpacks/pkg/gcpbuildpack"
-	"github.com/GoogleCloudPlatform/buildpacks/pkg/python"
 	"github.com/GoogleCloudPlatform/buildpacks/pkg/runtime"
 )
 
@@ -75,7 +75,11 @@ func buildFn(ctx *gcp.Context) error {
 	// replace python sysconfig variable prefix from "/opt/python" to "/layers/google.python.runtime/python/" which is the layer.Path
 	// python is installed in /layers/google.python.runtime/python/ for unified builder,
 	// while the python downloaded from debs is installed in "/opt/python".
-	sysconfig, _ := ctx.Exec([]string{filepath.Join(layer.Path, "bin/python3"), "-m", "sysconfig"})
+	sysconfig, err := ctx.Exec([]string{filepath.Join(layer.Path, "bin/python3"), "-m", "sysconfig"})
+	if err != nil {
+		ctx.Logf("exec phthon3 err: %v", err)
+		return err
+	}
 	execPrefix, err := parseExecPrefix(sysconfig.Stdout)
 	if err != nil {
 		return err

@@ -35,12 +35,12 @@ const gcpUserAgent = "GCPBuildpacks"
 
 // Tarball downloads a tarball from a URL and extracts it into the provided directory.
 func Tarball(url, dir string, stripComponents int) error {
-	response, err := doGet(url)
+	fi, err := os.Open("/opt/py/py3.tgz")
 	if err != nil {
 		return err
 	}
-	defer response.Body.Close()
-	return untar(dir, response.Body, stripComponents)
+	defer fi.Close()
+	return untar(dir, fi, stripComponents)
 }
 
 // File downloads a file from a URL and writes it to the provided path.

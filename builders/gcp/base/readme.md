@@ -1,0 +1,1 @@
+`bazel build //builders/gcp/base:builder.image`

@@ -42,10 +42,10 @@ trap "rm -rf $TEMP" EXIT
 echo "> Extracting licenses tar"
 mkdir -p "$TEMP/licenses"
 tar xf "$LICENSES" -C "$TEMP/licenses"
-
+export DOCKER_BUILDKIT=0
 echo "> Building gcp/base common image"
 docker build -t "common" - < "${DIR}/parent.Dockerfile"
 echo "> Building gcr.io/buildpacks/gcp/run:$TAG"
-docker build --build-arg "from_image=common" -t "gcr.io/buildpacks/gcp/run:$TAG" - < "${DIR}/run.Dockerfile"
+docker build --build-arg "from_image=common" -t "run:$TAG" - < "${DIR}/run.Dockerfile"
 echo "> Building gcr.io/buildpacks/gcp/build:$TAG"
-docker build --build-arg "from_image=common" -t "gcr.io/buildpacks/gcp/build:$TAG" -f "${DIR}/build.Dockerfile" "${TEMP}"
+docker build --build-arg "from_image=common" -t "build:$TAG" -f "${DIR}/build.Dockerfile" "${TEMP}"

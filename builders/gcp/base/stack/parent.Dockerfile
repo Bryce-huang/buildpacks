@@ -44,8 +44,18 @@ RUN apt-get update -y && \
     libfreetype6 \
     libxslt1.1 \
     libzip4 \
+    build-essential \
+    zlib1g \
+    zlib1g-dev\
+    wget \
+    openssl \
+    libssl-dev\
+    libffi-dev\
   && apt-get clean && rm -rf /var/lib/apt/lists/*
-
+RUN cd /opt && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz
+RUN cd /opt && tar -xzf Python-3.11.4.tgz && mkdir py
+RUN cd /opt/Python-3.11.4 && /bin/sh -c "./configure --prefix=/opt/py --with-ssl && make -j8 && make -j8 install"
+RUN cd /opt/py && tar -czf py3.tgz *
 LABEL io.buildpacks.stack.id=${stack_id}
 
 RUN groupadd cnb --gid ${cnb_gid} && \
