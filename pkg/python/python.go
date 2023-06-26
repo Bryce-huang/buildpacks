@@ -207,7 +207,8 @@ func InstallRequirements(ctx *gcp.Context, l *libcnb.Layer, reqs ...string) erro
 			"--requirement", req,
 			"--upgrade",
 			"--upgrade-strategy", "only-if-needed",
-			"--index-url", "https://mirrors.cloud.tencent.com/pypi/simple",
+			"--index-url", "http://mirrors.tencentyun.com/pypi/simple",
+			"--trusted-host", "mirrors.tencentyun.com",
 			"--no-warn-script-location",   // bin is added at run time by lifecycle.
 			"--no-warn-conflicts",         // Needed for python37 which allowed users to override dependencies. For newer versions, we do a separate `pip check`.
 			"--force-reinstall",           // Some dependencies may be in the build image but not run image. Later requirements.txt should override earlier.
