@@ -21,5 +21,5 @@
  * @param {!Object} res response context.
  */
 exports.testFunction = (req, res) => {
-  res.send('PASS');
+  res.send('111222SS');
 };

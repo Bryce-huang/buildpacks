@@ -31,13 +31,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   unzip \
   xz-utils \
   g++-8 \
-  gcc-8 \
   zlib1g-dev \
-  libstdc++-8-dev \
   pkg-config \
   libgmp-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-
+RUN npm --version
 USER cnb
+

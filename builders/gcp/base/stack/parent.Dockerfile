@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gcr.io/gcp-runtimes/ubuntu_18_0_4
+FROM node:18.17.0
 
-ARG cnb_uid=1000
-ARG cnb_gid=1000
+ARG cnb_uid=2000
+ARG cnb_gid=2000
 ARG stack_id="google"
 
 # Required by python/runtime: libexpat1, libffi6, libmpdecc2.
@@ -27,24 +27,13 @@ ARG stack_id="google"
 RUN apt-get update -y && \
   apt-get upgrade -y --no-install-recommends --allow-remove-essential && \
   apt-get install -y --no-install-recommends --allow-remove-essential \
-    libexpat1 \
-    libffi6 \
-    libmpdec2 \
-    libicu60 \
-    libc++1-9 \
     tzdata \
     libyaml-0-2 \
-    libtidy5 \
     libpq5 \
     libxml2 \
-    libenchant1c2a \
     libpng16-16 \
-    libonig4 \
-    libjpeg8 \
     libfreetype6 \
     libxslt1.1 \
-    libzip4 \
-    build-essential \
     zlib1g \
     zlib1g-dev\
     wget \
@@ -52,10 +41,14 @@ RUN apt-get update -y && \
     libssl-dev\
     libffi-dev\
   && apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN cd /opt && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz
-RUN cd /opt && tar -xzf Python-3.11.4.tgz && mkdir py
-RUN cd /opt/Python-3.11.4 && /bin/sh -c "./configure --prefix=/opt/py --with-ssl && make -j8 && make -j8 install"
-RUN cd /opt/py && tar -czf py3.tgz *
+#RUN curl --fail --show-error --silent --location --retry 3 https://nodejs.org/dist/v18.17.0/node-v18.17.0-linux-x64.tar.xz | tar -xJ --directory /usr/local --strip-components=1
+# for python
+#RUN cd /opt && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz
+#RUN cd /opt && tar -xzf Python-3.11.4.tgz && mkdir py
+#RUN cd /opt/Python-3.11.4 && /bin/sh -c "./configure --prefix=/opt/py --with-ssl && make -j8 && make -j8 install"
+#RUN cd /opt/py && tar -czf py3.tgz *
+
+
 LABEL io.buildpacks.stack.id=${stack_id}
 
 RUN groupadd cnb --gid ${cnb_gid} && \

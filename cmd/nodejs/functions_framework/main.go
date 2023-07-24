@@ -58,6 +58,7 @@ func detectFn(ctx *gcp.Context) (gcp.DetectResult, error) {
 // installed in the npm or yarn buildpack with other dependencies.
 // For a function that does not, also install the framework.
 func buildFn(ctx *gcp.Context) error {
+
 	if _, ok := os.LookupEnv(env.FunctionSource); ok {
 		return gcp.UserErrorf("%s is not currently supported for Node.js buildpacks", env.FunctionSource)
 	}

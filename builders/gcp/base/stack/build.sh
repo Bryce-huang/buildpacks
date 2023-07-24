@@ -46,6 +46,6 @@ export DOCKER_BUILDKIT=0
 echo "> Building gcp/base common image"
 docker build -t "common" - < "${DIR}/parent.Dockerfile"
 echo "> Building gcr.io/buildpacks/gcp/run:$TAG"
-docker build --build-arg "from_image=common" -t "run:$TAG" - < "${DIR}/run.Dockerfile"
+docker build --build-arg "from_image=common" -t "node-run:$TAG" - < "${DIR}/run.Dockerfile"
 echo "> Building gcr.io/buildpacks/gcp/build:$TAG"
-docker build --build-arg "from_image=common" -t "build:$TAG" -f "${DIR}/build.Dockerfile" "${TEMP}"
+docker build --build-arg "from_image=common" -t "node-build:$TAG" -f "${DIR}/build.Dockerfile" "${TEMP}"

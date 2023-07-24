@@ -283,9 +283,9 @@ description = "Builder for the Node.js runtime"
     id = "google.utils.label-image"
 
 [stack]
-  id = "google.gae.18"
-  build-image = "gcr.io/gae-runtimes/buildpacks/stacks/google-gae-18/build"
-  run-image = "gcr.io/gae-runtimes/buildpacks/stacks/google-gae-18/run"
+  id = "google"
+  build-image = "node-build:v1"
+  run-image = "node-run:v1"
 
 [lifecycle]
   version = "0.16.4"

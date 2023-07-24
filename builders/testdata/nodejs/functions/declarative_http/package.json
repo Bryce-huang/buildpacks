@@ -2,5 +2,7 @@
   "main": "index.js",
   "dependencies": {
     "@google-cloud/functions-framework": "^2.0.0"
-  }
+  },
+  "engines": {"node": "18.17.0","npm": "9.8.0"}
+
 }
