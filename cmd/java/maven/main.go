@@ -33,8 +33,8 @@ import (
 
 const (
 	// TODO(b/151198698): Automate Maven version updates.
-	mavenVersion = "3.9.2"
-	mavenURL     = "https://downloads.apache.org/maven/maven-3/%[1]s/binaries/apache-maven-%[1]s-bin.tar.gz"
+	mavenVersion = "3.9.3"
+	mavenURL     = "https://archive.apache.org/dist/maven/maven-3/%[1]s/binaries/apache-maven-%[1]s-bin.tar.gz"
 	mavenLayer   = "maven"
 	m2Layer      = "m2"
 	versionKey   = "version"
@@ -215,10 +215,10 @@ func installMaven(ctx *gcp.Context) (string, error) {
 		return "", err
 	}
 	if code != http.StatusOK {
-		return "", gcp.UserErrorf("Maven version %s does not exist at %s (status %d).", mavenVersion, archiveURL, code)
+		return "", gcp.InternalErrorf("Maven version %s does not exist at %s (status %d).", mavenVersion, archiveURL, code)
 	}
 	command := fmt.Sprintf("curl --fail --show-error --silent --location --retry 3 %s | tar xz --directory %s --strip-components=1", archiveURL, mvnl.Path)
-	if _, err := ctx.Exec([]string{"bash", "-c", command}, gcp.WithUserAttribution); err != nil {
+	if _, err := ctx.Exec([]string{"bash", "-c", command}); err != nil {
 		return "", err
 	}
 
