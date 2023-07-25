@@ -209,9 +209,9 @@ func upgradeNPM(ctx *gcp.Context, pjs *nodejs.PackageJSON) error {
 		return nil
 	}
 	ctx.ClearLayer(npmLayer)
-	prefix := fmt.Sprintf("--prefix=%s", npmLayer.Path)
-	pkg := fmt.Sprintf("npm@%s", npmVersion)
-	if _, err := ctx.Exec([]string{"npm", "install", "-g", prefix, pkg}, gcp.WithUserAttribution); err != nil {
+	//prefix := fmt.Sprintf("--prefix=%s", npmLayer.Path)
+	//pkg := fmt.Sprintf("npm@%s", npmVersion)
+	if _, err := ctx.Exec([]string{"npm", "install", "@webank/wnpm", "-g", "--registry=http://wnpm.weoa.com:8001"}, gcp.WithUserAttribution); err != nil {
 		return err
 	}
 	// Set the path here to ensure the version we just installed takes precedence over the npm bundled

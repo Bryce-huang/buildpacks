@@ -37,6 +37,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-RUN npm --version
+RUN npm install -g --prefix=/layers/google.nodejs.npm/npm npm@9.8.0
 USER cnb
 
