@@ -209,20 +209,21 @@ func upgradeNPM(ctx *gcp.Context, pjs *nodejs.PackageJSON) error {
 		return nil
 	}
 	ctx.ClearLayer(npmLayer)
-	//prefix := fmt.Sprintf("--prefix=%s", npmLayer.Path)
+	prefix := fmt.Sprintf("--prefix=%s", npmLayer.Path)
 	//pkg := fmt.Sprintf("npm@%s", npmVersion)
 	rec := os.Getenv("NPM_REGISTRY")
 	if rec == "" {
 		rec = "http://wnpm.stgwebank.com:8001"
 	}
 
-	if _, err := ctx.Exec([]string{"npm", "install", "@webank/wnpm", "-g", "--registry=" + rec}, gcp.WithUserAttribution); err != nil {
+	if _, err := ctx.Exec([]string{"npm", "install", "@webank/wnpm", "-g", "--registry=" + rec, prefix}, gcp.WithUserAttribution); err != nil {
 		return err
 	}
+
 	// Set the path here to ensure the version we just installed takes precedence over the npm bundled
 	// with the Node.js engine.
-	//if err := ctx.Setenv("PATH", filepath.Join(npmLayer.Path, "bin")+":"+os.Getenv("PATH")); err != nil {
-	//	return err
-	//}
+	if err := ctx.Setenv("PATH", filepath.Join(npmLayer.Path, "bin")+":"+os.Getenv("PATH")); err != nil {
+		return err
+	}
 	return nil
 }
